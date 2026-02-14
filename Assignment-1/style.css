@@ -33,6 +33,19 @@ header h1 {
     gap: 20px;
 }
 
+.dashboard-top {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.event-form-container {
+    flex: 1; 
+}
+
+.my-events-container {
+    flex: 2; 
+}
 /* Glass Card Style */
 .glass-card {
     background: var(--card-bg);
