@@ -1,103 +1,94 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+:root {
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --bg-gradient: linear-gradient(135deg, #a5f3fc 0%, #d8b4fe 100%);
+    --card-bg: rgba(255, 255, 255, 0.9);
 }
 
 body {
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-gradient);
     background-attachment: fixed;
-    min-height: 100vh;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
+    margin: 0;
+    padding: 20px;
+    color: #334155;
 }
 
-.container {
-    width: 100%;
-    max-width: 1100px;
-}
-
-h1 {
-    color: #4834d4;
-    margin-bottom: 30px;
+header h1 {
     text-align: center;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.dashboard {
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    gap: 25px;
-    margin-bottom: 25px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.form-section, .events-section, .demo-section {
-    background: #ffffff; 
+.main-row {
+    display: flex;
+    gap: 20px;
+}
+
+/* Glass Card Style */
+.glass-card {
+    background: var(--card-bg);
+    border-radius: 15px;
     padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
-.form-section { 
-    flex: 1; 
-    border-top: 5px solid #be95ff; 
-}
+.form-section { flex: 1; max-width: 350px; }
+.events-display { flex: 2; min-height: 400px; }
 
-.events-section { 
-    flex: 2; 
-    border-top: 5px solid #2ecc71; 
-    min-height: 400px; 
-}
-
-.form-group { margin-bottom: 15px; }
-label { display: block; font-weight: 600; margin-bottom: 5px; color: #686de0; }
-
+/* Form Elements */
+label { display: block; font-weight: 600; margin-top: 15px; font-size: 0.9rem; }
 input, select, textarea {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #f0f0f5;
-    border-radius: 12px;
-    outline: none;
-    transition: 0.3s;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: white;
 }
 
-input:focus { 
-    border-color: #be95ff; 
-}
-
-button {
-    background: linear-gradient(90deg, #be95ff, #70e1f5, #2ecc71);
-    background-size: 200% auto;
-    color: white;
+/* Buttons */
+.btn {
     border: none;
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: bold;
     cursor: pointer;
-    transition: 0.5s;
-    width: 100%;
+    transition: all 0.2s;
 }
 
-button:hover {
-    background-position: right center;
-    transform: translateY(-2px);
-}
+.btn-primary { background: var(--accent); color: white; width: 100%; margin-top: 20px; }
+.btn-clear { background: #7c3aed; color: white; }
+.btn-sample { background: #6366f1; color: white; }
+.action-btns { display: flex; gap: 10px; }
 
-.controls { display: flex; gap: 10px; margin: 20px 0; }
-.controls button { flex: 1; background: #f8f9fa; color: #4834d4; }
+/* Event Cards */
+.display-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
 #eventContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 15px;
 }
 
 .event-card {
-    background: #fdfbff; 
-    border: 1px solid #f0f0f5;
-    border-left: 5px solid #2ecc71; 
+    background: #e2e8f0;
     padding: 15px;
-    border-radius: 15px;
+    border-radius: 12px;
     position: relative;
 }
 
@@ -105,32 +96,20 @@ button:hover {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #ff7675 !important; 
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.category-badge {
-    background: #be95ff; 
+    background: #ff7675;
     color: white;
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-size: 11px;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
 }
 
-.demo-box {
-    background: #fff;
-    border: 2px dashed #be95ff;
+/* Demo Section */
+.demo-inner {
+    background: #f8fafc;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
 }
 
-#keyPressed { color: #2ecc71; font-weight: bold; }
-
-@media (max-width: 800px) {
-    .dashboard { flex-direction: column; }
-}
+.key-status { color: var(--accent); font-weight: bold; margin-top: 15px; }

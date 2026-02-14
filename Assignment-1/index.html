@@ -2,75 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Event Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>🎯 Smart Event Dashboard</h1>
+    <header>
+        <h1>🎯 Smart Event Dashboard</h1>
+    </header>
 
-    <div class="dashboard">
-        <div class="form-section">
-            <h2>Add New Event</h2>
-            <form id="eventForm">
-                <div class="form-group">
-                    <label for="eventTitle">Event Title:</label>
-                    <input type="text" id="eventTitle" required>
-                </div>
-                <div class="form-group">
-                    <label for="eventDate">Event Date:</label>
+    <div class="dashboard-container">
+        <div class="main-row">
+            <section class="glass-card form-section">
+                <h2>Add New Event</h2>
+                <form id="eventForm">
+                    <label>Event Title:</label>
+                    <input type="text" id="eventTitle" placeholder="Enter title..." required>
+                    
+                    <label>Event Date:</label>
                     <input type="date" id="eventDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="eventCategory">Category:</label>
-                    <select id="eventCategory" required>
-                        <option value="Conference">Conference</option>
+
+                    <label>Category:</label>
+                    <select id="eventCategory">
                         <option value="Workshop">Workshop</option>
-                        <option value="Meetup">Meetup</option>
-                        <option value="Webinar">Webinar</option>
+                        <option value="Conference">Conference</option>
                         <option value="Social">Social</option>
                     </select>
+
+                    <label>Description:</label>
+                    <textarea id="eventDescription" placeholder="Details..."></textarea>
+
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                </form>
+            </section>
+
+            <section class="glass-card events-display">
+                <div class="display-header">
+                    <h2>My Events</h2>
+                    <div class="action-btns">
+                        <button id="clearAllBtn" class="btn btn-clear">Clear All Events</button>
+                        <button id="addSampleBtn" class="btn btn-sample">Add Sample Events</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="eventDescription">Description:</label>
-                    <textarea id="eventDescription" required></textarea>
+                <div id="eventContainer">
+                    <div id="empty-state" class="empty-state">No events yet. Add your first event!</div>
                 </div>
-                <button type="submit">Add Event</button>
-            </form>
+            </section>
         </div>
 
-        <div class="events-section">
-            <h2>My Events</h2>
-            <div class="events-info">
-                Manage your upcoming events, highlight important ones, or clear the list.
-            </div>
-            <div class="controls">
-                <button id="clearAllBtn">Clear All Events</button>
-                <button id="addSampleBtn">Add Sample Events</button>
-            </div>
-            <div id="eventContainer">
-                <div id="empty-state" class="empty-state">
-                    No events yet. Add your first event!
+        <section class="glass-card demo-section">
+            <h2>DOM Manipulation Demo</h2>
+            <div class="demo-inner">
+                <h3>innerText vs innerHTML vs textContent</h3>
+                <div id="demoContent" class="demo-box">
+                    <p>Waiting for key press...</p>
                 </div>
+                <p class="key-status">You pressed: <span id="keyPressed">None</span></p>
             </div>
-        </div>
+        </section>
     </div>
 
-    <div class="demo-section">
-        <h2>DOM Manipulation Demo</h2>
-        <div class="demo-box">
-            <div id="demoContent" class="demo-content">
-                Press any key to see the difference!
-            </div>
-            <p class="key-display">
-                You pressed: <span id="keyPressed">None</span>
-            </p>
-        </div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
