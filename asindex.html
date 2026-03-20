@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Tracker</title>
+    <style>
+    * { 
+        margin: 0; 
+        padding: 0; 
+        box-sizing: border-box; 
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        background: radial-gradient(circle at top right, #e0f2fe, #bae6fd, #7dd3fc);
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1100px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #0369a1; 
+        margin-bottom: 50px;
+        font-size: 2.8rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -1px;
+    }
+
+    .parent-card {
+        display: flex !important;
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 40px;
+        flex: 1;
+        max-width: 520px;
+        min-height: 420px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    h3 {
+        color: #0c4a6e;
+        margin-bottom: 25px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    h3::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+    }
+
+    .input-group {
+        display: flex;
+        background: #f1f5f9;
+        padding: 6px;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 30px;
+    }
+
+    input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 12px 16px;
+        font-size: 1rem;
+        outline: none;
+        color: #1e293b;
+    }
+
+    button#searchBtn {
+        background: #10b981; 
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    button#searchBtn:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .weather-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px;
+        background: white;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        border: 1px solid #f1f5f9;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .weather-item label {
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+
+    .weather-item span {
+        font-weight: 700;
+        color: #0369a1; 
+    }
+
+    #history button {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: none;
+        padding: 8px 18px;
+        margin: 4px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    #history button:hover {
+        background: #0369a1;
+        color: white;
+    }
+
+    @media (max-width: 850px) {
+        .parent-card { flex-direction: column; align-items: center; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Weather Tracker</h1>
+
+        <div class="parent-card">
+            <div class="card">
+                <h3>Search City</h3>
+                <div class="input-group">
+                    <input id="cityInput" placeholder="Enter city name...">
+                    <button id="searchBtn">GO</button>
+                </div>
+                <h3>Recent Searches</h3>
+                <div id="history"></div>
+            </div>
+
+            <div class="card">
+                <h3>Weather Details</h3>
+                <div id="weather">
+                    <p style="text-align:center; color:#64748b; margin-top:50px;">Search a city to see live data</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    const API_KEY = "55640fd0536e5e56dcde584172ace58c";
+    const weatherBox = document.getElementById("weather");
+    const historyBox = document.getElementById("history");
+    const cityInput = document.getElementById("cityInput");
+
+    async function getWeather(city) {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+        if (!res.ok) throw new Error("City not found");
+        return await res.json();
+    }
+
+    function renderWeather(d) {
+        weatherBox.innerHTML = `
+            <div class="weather-item"><label>City</label><span>${d.name}</span></div>
+            <div class="weather-item"><label>Temp</label><span>${d.main.temp} °C</span></div>
+            <div class="weather-item"><label>Humidity</label><span>${d.main.humidity}%</span></div>
+            <div class="weather-item"><label>Wind</label><span>${d.wind.speed} m/s</span></div>
+        `;
+    }
+
+    function saveHistory(city) {
+        let history = JSON.parse(localStorage.getItem("weather_history") || "[]");
+        if (!history.includes(city)) {
+            history.unshift(city);
+            if (history.length > 5) history.pop();
+            localStorage.setItem("weather_history", JSON.stringify(history));
+        }
+        showHistory(); 
+    }
+    function showHistory() {
+        const historyBox = document.getElementById("history");
+        let history = JSON.parse(localStorage.getItem("weather_history") || "[]");
+        
+        historyBox.innerHTML = "";
+        history.forEach(city => {
+            const btn = document.createElement("button");
+            btn.textContent = city;
+            btn.onclick = () => {
+                cityInput.value = city;
+                search(city);
+            };
+            historyBox.appendChild(btn);
+        });
+    }
+    async function search(city) {
+        if (!city) return;
+        weatherBox.innerHTML = "<p style='text-align:center; margin-top:50px;'>Loading...</p>";
+        try {
+            const data = await getWeather(city);
+            renderWeather(data);
+            saveHistory(data.name); 
+        } catch (error) {
+            weatherBox.innerHTML = `<p style="color:red; text-align:center; margin-top:50px;">${error.message}</p>`;
+        }
+    }
+    document.getElementById("searchBtn").onclick = () => search(cityInput.value.trim());
+
+    cityInput.onkeydown = (e) => {
+        if (e.key === "Enter") search(cityInput.value.trim());
+    };
+
+    showHistory();
+</script>
+</body>
+</html>
